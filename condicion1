@@ -1,0 +1,7 @@
+if (x > 50) {
+  /* hace algo */
+} else if (x > 5) {
+  /* hace algo */
+} else {
+  /* hace algo */
+}
