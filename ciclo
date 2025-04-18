@@ -1,0 +1,5 @@
+const cats = ["Leopardo", "Serval", "Jaguar", "Tigre", "Caracal", "León"];
+
+for (const cat of cats) {
+  console.log(cat);
+}
