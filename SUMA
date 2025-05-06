@@ -1,0 +1,3 @@
+    Dim numero1 As Integer = 5
+    Dim numero2 As Integer = 10
+    Dim suma As Integer = numero1 + numero2
