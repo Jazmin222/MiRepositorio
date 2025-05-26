@@ -1,0 +1,17 @@
+# Solicitar al usuario que ingrese un número
+read -p "Ingrese un número para calcular su factorial: " numero
+
+# Verificar si el número ingresado es válido (un entero positivo)
+if ! [[ "$numero" =~ ^[0-9]+$ ]]; then
+  echo "Por favor, ingrese un número entero positivo."
+  exit 1
+fi
+
+# Calcular el factorial usando un bucle for
+factorial=1
+for (( i=1; i<=$numero; i++ )); do
+  factorial=$(($factorial * $i))
+done
+
+# Imprimir el resultado
+echo "El factorial de $numero es: $factorial"
