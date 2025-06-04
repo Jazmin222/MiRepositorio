@@ -1,0 +1,40 @@
+CREATE DATABASE Vuelos;
+USE Vuelos;
+CREATE TABLE Vuelo(
+idVuelo INTEGER (3) NOT NULL,
+origen VARCHAR (20) NOT NULL,
+destino VARCHAR (10) NOT NULL,
+salida VARCHAR (10) NOT NULL,
+CONSTRAINT Vuelo_idVuelo_pk
+PRIMARY KEY (idVuelo)
+);
+CREATE TABLE Aeropuerto(
+idAero INTEGER (5) NOT NULL AUTO_INCREMENT,
+codigo VARCHAR (3) NOT NULL,
+ciudad VARCHAR (20) NOT NULL,
+CONSTRAINT Aeropuerto_idAero_pk
+PRIMARY KEY (idAero)
+);
+CREATE TABLE Pasajero(
+dni INTEGER (5) NOT NULL,
+nombre VARCHAR (20) NOT NULL,
+apePat VARCHAR (10) NOT NULL,
+apeMat VARCHAR (10),
+tel VARCHAR (12) NOT NULL,
+CONSTRAINT Pasajero_dni_pk
+PRIMARY KEY (dni)
+);
+CREATE TABLE Reserva(
+dni INTEGER (5) NOT NULL,
+idVuelo INTEGER (3) NOT NULL,
+fecha DATE,
+precio INTEGER,
+CONSTRAINT Reserva_dni_fk
+FOREIGN KEY (dni)
+REFERENCES Pasajero (dni),
+CONSTRAINT Reserva_idVuelo_fk
+FOREIGN KEY (idVuelo)
+REFERENCES Vuelo (idVuelo),
+CONSTRAINT Reserva_pk
+PRIMARY KEY (dni,idVuelo)
+);
