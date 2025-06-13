@@ -1,0 +1,10 @@
+CREATE TABLE DETALLE_VENTA (
+    idVenta VARCHAR(10),
+    idProducto VARCHAR(10),
+    cantidad INT,
+    CONSTRAINT pk_detalle_venta PRIMARY KEY (idVenta, idProducto),
+    CONSTRAINT fk_detalle_venta FOREIGN KEY (idVenta)
+        REFERENCES VENTA(idVenta),
+    CONSTRAINT fk_detalle_producto FOREIGN KEY (idProducto)
+        REFERENCES PRODUCTO(idProducto)
+);
