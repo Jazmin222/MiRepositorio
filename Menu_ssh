@@ -1,0 +1,94 @@
+#!/bin/bash
+
+while true
+do
+  echo "---- MENU PRINCIPAL ----"
+  echo "1. Denegar Ping remoto por IP"
+  echo "2. Permitir Ping remoto por IP"
+  echo "3. Denegar acceso puerto 22 por IP"
+  echo "4. Permitir acceso puerto 22 por IP"
+  echo "5. Denegar acceso puerto 22 por rango IP"
+  echo "6. Permitir acceso puerto 22 por rango IP"
+  echo "7. Denegar acceso puerto 22 por MAC"
+  echo "8. Permitir acceso puerto 22 por MAC"
+  echo "9. Estado de las reglas"
+  echo "10. Salir"
+  read -p "Selecciona una opción: " opcion
+
+  case $opcion in
+
+  1)
+    read -p "IP a bloquear: " ip
+    sudo iptables -A INPUT -p icmp -s $ip -j DROP
+    ;;
+
+  2)
+    read -p "IP a permitir PING: " ip
+    sudo iptables -A INPUT -p icmp -s $ip -j ACCEPT
+    ;;
+
+  3)
+    read -p "IP a bloquear puerto 22: " ip
+    sudo iptables -A INPUT -p tcp --dport 22 -s $ip -j DROP
+    ;;
+
+  4)
+    read -p "IP a permitir puerto 22: " ip
+    sudo iptables -A INPUT -p tcp --dport 22 -s $ip -j ACCEPT
+    ;;
+
+  5)
+    echo "Ingresa el número de la IP de inicio a bloquear"
+    read inicio
+    echo "Ingresa el número de la IP de fin a bloquear"
+    read fin
+    base_ip="192.168.1."
+    while [ $inicio -le $fin ]; do
+      ip="${base_ip}${inicio}"
+      echo "BLOQUEANDO IP: $ip"
+      sudo iptables -A INPUT -p tcp -s $ip --dport 22 -j DROP
+      ((inicio++))
+    done
+    echo "Restricción de IPs completa"
+    ;;
+
+  6)
+    echo "Ingresa el número de inicio de la IP"
+    read inicio
+    echo "Ingresa el número de fin de la IP"
+    read fin
+    base_ip="192.168.1."
+    while [ $inicio -le $fin ]; do
+      ip="${base_ip}${inicio}"
+      echo "Permitiendo acceso SSH desde IP: $ip"
+      sudo iptables -A INPUT -p tcp -s $ip --dport 22 -j ACCEPT
+      ((inicio++))
+    done
+    echo "Acceso SSH permitido para el rango especificado"
+    ;;
+
+  7)
+    read -p "MAC a bloquear puerto 22: " mac
+    sudo iptables -A INPUT -p tcp --dport 22 -m mac --mac-source $mac -j DROP
+    ;;
+
+  8)
+    read -p "MAC a permitir puerto 22: " mac
+    sudo iptables -A INPUT -p tcp --dport 22 -m mac --mac-source $mac -j ACCEPT
+    ;;
+
+  9)
+    sudo iptables -nL
+    ;;
+
+  10)
+    echo "SALIENDO......"
+    exit 0
+    ;;
+
+  *)
+    echo "Opción inválida"
+    ;;
+
+  esac
+done
